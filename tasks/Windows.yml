@@ -1,0 +1,3 @@
+---
+- ansible.builtin.debug:
+    msg: "Under Windows platform we don't need Xvfb"

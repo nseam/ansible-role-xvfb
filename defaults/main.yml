@@ -2,3 +2,5 @@
 xvfb_display: ":0"
 xvfb_install_x11_utils: false
 xvfb_service_enabled: true
+is_unix: "{{ ansible_os_family != 'Windows' and not ansible_os_family.startswith('CYGWIN') }}"
+platform_name: "{{ 'Windows' if ansible_os_family == 'Windows' else 'Cygwin' if ansible_os_family.startswith('CYGWIN') else ansible_os_family }}"
