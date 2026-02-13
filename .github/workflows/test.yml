@@ -20,6 +20,9 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      ANSIBLE_COLLECTIONS_PATH: ~/.ansible/collections
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,7 +38,9 @@ jobs:
         working-directory: ${{ github.repository }}
 
       - name: Install Ansible Galaxy requirements
-        run: ansible-galaxy install -r requirements.yml
+        run: |
+          rm -rf ~/.ansible/collections
+          ansible-galaxy collection install -r requirements.yml -p ~/.ansible/collections --force
         working-directory: ${{ github.repository }}
 
       - name: Install Ansible Galaxy local requirements

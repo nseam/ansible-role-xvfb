@@ -18,7 +18,7 @@ lint: |
   ansible-lint
 platforms:
   - name: alpine-latest
-    image: i386/alpine:latest
+    image: alpine:3.20
   - name: debian-latest
     image: debian:latest
   - name: nixos-latest
@@ -37,9 +37,13 @@ provisioner:
     defaults:
       host_key_checking: false
       # Use the built-in default callback with result_format instead of community.general.yaml
+      remote_tmp: /tmp/.ansible-tmp-$${USER}
       result_format: yaml
       stdout_callback: ansible.builtin.default
       verbosity: 1
+      # Temporary workaround for molecule-docker 2.1.0 compatibility with Ansible 2.20+
+      allow_broken_conditionals: true
+      deprecation_warnings: false
   env:
     ANSIBLE_FORCE_COLOR: "1"
     ANSIBLE_LOAD_CALLBACK_PLUGINS: "1"
